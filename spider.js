@@ -16,6 +16,7 @@ app.set('views',path.join(__dirname,'views'));
 app.use(express.static(path.join(__dirname,'public')));
 app.use('/',index);
 app.use('/getscore',index);
+app.use('/score',index);
 app.listen(3000);
 const fs=require('fs');
 const readline=require("readline");
