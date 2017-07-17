@@ -5,10 +5,10 @@ const fs=require('fs');
 const readline=require("readline");
 const gm=require("gm");
 var wait=require('wait-promise');
+    var driver = new Builder()
+    	.forBrowser('chrome')
+    	.build();
 //var imageMagick = gm.subClass({ imageMagick: true });
-var driver = new Builder()
-    .forBrowser('chrome')
-    .build();
 var rl=readline.createInterface({
     input:process.stdin,
     output:process.stdout
@@ -117,8 +117,13 @@ var startSpider=function () {
             })
         }).then(function(){
             callback();
+            driver.quit();
         })
         })
+         .catch()
+           {
+           		driver.quit();
+           }
 
     }
 }
