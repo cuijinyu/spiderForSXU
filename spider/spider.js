@@ -40,14 +40,14 @@ var startSpider=function () {
                 //console.log(driver.text());
                 driver.takeScreenshot()
                     .then(function(data){
-                        fs.writeFile("check.png", data.replace(/^data:image\png;base64/,''), "base64", function(err){
+                        fs.writeFile("./public/images/check.png", data.replace(/^data:image\png;base64/,''), "base64", function(err){
                             if(err){
                                 console.log("down fail");
                             }
                             console.log("down success");
                         });
                     }).then(function(){
-                    gm("check.png").crop(100,25,190,350).write("checkNumber.png",function(err)
+                    gm("./public/images/check.png").crop(100,25,190,350).write("./public/images/checkNumber.png",function(err)
                     {
                         if(err){
                             console.log(err);
@@ -59,7 +59,7 @@ var startSpider=function () {
                 })
             });
     }
-    this.login=function (id,password,checkNumber) {
+    this.login=function (id,password,checkNumber,callback) {
         //console.log(index.message);
         var check=driver.controlFlow().promise(resolve => resolve());
         check.then(function(){
@@ -71,7 +71,7 @@ var startSpider=function () {
         driver.findElement(By.xpath('//*[@id="Logon"]/table/tbody/tr[2]/td/table/tbody/tr[5]/td/input[1]')).click();
         setTimeout(function () {
             driver.takeScreenshot().then(function (data) {
-                fs.writeFile("condition.png", data.replace(/^data:image\png;base64/, ''), "base64", function (err) {
+                fs.writeFile("./public/images/condition.png", data.replace(/^data:image\png;base64/, ''), "base64", function (err) {
                     if (err) {
                         console.log("down fail");
                     }
@@ -101,22 +101,24 @@ var startSpider=function () {
         driver.wait(until.elementLocated(By.xpath('/html/body/center/div/div/img')), 20000);
         driver.takeScreenshot()
             .then(function (data) {
-                fs.writeFile("score.png", data.replace(/^data:image\png;base64/, ''), "base64", function (err) {
+                fs.writeFile("./public/images/score.png", data.replace(/^data:image\png;base64/, ''), "base64", function (err) {
                     if (err) {
                         console.log("down fail");
                     }
                     console.log("down success");
                 });
             }).then(function () {
-            gm("score.png").crop(1000, 600, 280, 210).write("scoreNumber.png", function (err) {
+            gm("./public/images/score.png").crop(1000, 600, 280, 210).write("./public/images/scoreNumber.png", function (err) {
                 if (err) {
                     console.log(err);
                 } else {
                     console.log("down the scoreNumber successful");
                 }
             })
-             })
-             })
+        }).then(function(){
+            callback();
+        })
+        })
 
     }
 }
