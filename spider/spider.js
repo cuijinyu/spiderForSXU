@@ -5,17 +5,22 @@ const fs=require('fs');
 const readline=require("readline");
 const gm=require("gm");
 var wait=require('wait-promise');
-    var driver = new Builder()
-    	.forBrowser('chrome')
-    	.build();
 //var imageMagick = gm.subClass({ imageMagick: true });
 var rl=readline.createInterface({
     input:process.stdin,
     output:process.stdout
 });
 var startSpider=function () {
+    this.setID=function(ID){
+        id=ID;
+    }
+    this.getID=function(){
+        return id;
+    }
+    var id='';
+    var driver= new Builder().forBrowser('chrome').build();
     this.getCheckNumber=function () {
-        driver.get("http://bkjw.sxu.edu.cn/")
+       driver.get("http://bkjw.sxu.edu.cn/")
             .then(function(){
                 driver.switchTo().frame(0);
             })
@@ -23,7 +28,7 @@ var startSpider=function () {
                 // console.log(driver.getPageSource().then(function(data){
                 //    console.log(data);
                 //  }));
-                driver.findElement(By.id("txt_sdertfgsadscxcadsads")).click();
+              driver.findElement(By.id("txt_sdertfgsadscxcadsads")).click();
                 // console.log(checkImg);
                 /*fs.writeFile("check.png",checkImg,'binary',function(err)
                  {
@@ -38,7 +43,7 @@ var startSpider=function () {
                 //var id=driver.findElement(By.id("txt_asmcdefsddsd"));
                 //var pass=driver.findElement(By.id("txt_pewerwedsdfsdff"));
                 //console.log(driver.text());
-                driver.takeScreenshot()
+              driver.takeScreenshot()
                     .then(function(data){
                         fs.writeFile("./public/images/check.png", data.replace(/^data:image\png;base64/,''), "base64", function(err){
                             if(err){
@@ -63,12 +68,12 @@ var startSpider=function () {
         //console.log(index.message);
         var check=driver.controlFlow().promise(resolve => resolve());
         check.then(function(){
-        driver.findElement(By.id("txt_asmcdefsddsd")).sendKeys(id);
-        driver.findElement(By.id("txt_pewerwedsdfsdff")).sendKeys(password);
-        driver.findElement(By.id("txt_sdertfgsadscxcadsads")).sendKeys(checkNumber);
+            driver.findElement(By.id("txt_asmcdefsddsd")).sendKeys(id);
+            driver.findElement(By.id("txt_pewerwedsdfsdff")).sendKeys(password);
+            driver.findElement(By.id("txt_sdertfgsadscxcadsads")).sendKeys(checkNumber);
         }) .then(function(){
         console.log("successful");
-        driver.findElement(By.xpath('//*[@id="Logon"]/table/tbody/tr[2]/td/table/tbody/tr[5]/td/input[1]')).click();
+            driver.findElement(By.xpath('//*[@id="Logon"]/table/tbody/tr[2]/td/table/tbody/tr[5]/td/input[1]')).click();
         setTimeout(function () {
             driver.takeScreenshot().then(function (data) {
                 fs.writeFile("./public/images/condition.png", data.replace(/^data:image\png;base64/, ''), "base64", function (err) {
@@ -80,26 +85,26 @@ var startSpider=function () {
             })
         }, 1000);
           }).then(function(){
-                driver.sleep(3000);
-                driver.switchTo().frame("frmbody");
+            driver.sleep(3000);
+            driver.switchTo().frame("frmbody");
          })
              .then(function(){
-        driver.wait(until.elementLocated(By.id('memuBarText7')), 5000);
-        driver.findElement(By.id("memuBarText7")).click();
+                 driver.wait(until.elementLocated(By.id('memuBarText7')), 5000);
+                 driver.findElement(By.id("memuBarText7")).click();
             }).then(function(){
-        driver.wait(until.elementLocated(By.xpath('//*[@id="memuLinkDiv7"]/table/tbody/tr/td[2]/span')), 5000);
-        driver.findElement(By.xpath('//*[@id="memuLinkDiv7"]/table/tbody/tr/td[2]/span')).click();
+            driver.wait(until.elementLocated(By.xpath('//*[@id="memuLinkDiv7"]/table/tbody/tr/td[2]/span')), 5000);
+            driver.findElement(By.xpath('//*[@id="memuLinkDiv7"]/table/tbody/tr/td[2]/span')).click();
             }).then(function(){
-        driver.switchTo().frame('frmMain');
+            driver.switchTo().frame('frmMain');
            }).then(function(){
-        driver.wait(until.elementLocated(By.xpath('/html/body/form/table/tbody/tr[2]/td/table/tbody/tr[1]/td[3]/input[1]')), 5000);
-        driver.findElement(By.xpath('/html/body/form/table/tbody/tr[2]/td/table/tbody/tr[1]/td[3]/input[1]')).click();
+            driver.wait(until.elementLocated(By.xpath('/html/body/form/table/tbody/tr[2]/td/table/tbody/tr[1]/td[3]/input[1]')), 5000);
+            driver.findElement(By.xpath('/html/body/form/table/tbody/tr[2]/td/table/tbody/tr[1]/td[3]/input[1]')).click();
             }).then(function(){
-        driver.switchTo().frame('main');
+            driver.switchTo().frame('main');
            }).then(function(){
         //driver.quit();
-        driver.wait(until.elementLocated(By.xpath('/html/body/center/div/div/img')), 20000);
-        driver.takeScreenshot()
+            driver.wait(until.elementLocated(By.xpath('/html/body/center/div/div/img')), 20000);
+             driver.takeScreenshot()
             .then(function (data) {
                 fs.writeFile("./public/images/score.png", data.replace(/^data:image\png;base64/, ''), "base64", function (err) {
                     if (err) {
@@ -117,12 +122,12 @@ var startSpider=function () {
             })
         }).then(function(){
             callback();
-            driver.quit();
+                driver.quit();
         })
         })
          .catch()
            {
-           		driver.quit();
+               driver.quit();
            }
 
     }
