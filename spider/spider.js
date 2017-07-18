@@ -1,7 +1,8 @@
 require('chromedriver');
 var index=require('../routes/index');
-const {Builder,Browser,By,until,controlFlow} = require('selenium-webdriver');
+const {Builder,Browser,By,until,controlFlow,Capabilities} = require('selenium-webdriver');
 const fs=require('fs');
+const proxy=require('selenium-webdriver/proxy')
 const readline=require("readline");
 const gm=require("gm");
 var wait=require('wait-promise');
@@ -18,7 +19,11 @@ var startSpider=function () {
         return id;
     }
     var id='';
-    var driver= new Builder().forBrowser('chrome').build();
+    var driver= new Builder()
+        .withCapabilities(Capabilities.phantomjs())
+        .setProxy(proxy.manual({http:'111.155.116.212:8123'}))
+        .forBrowser('phantomjs')
+        .build();
     this.getCheckNumber=function () {
        driver.get("http://bkjw.sxu.edu.cn/")
             .then(function(){
@@ -121,12 +126,13 @@ var startSpider=function () {
                 }
             })
         }).then(function(){
-            callback();
+                callback();
                 driver.quit();
         })
         })
          .catch()
            {
+               callback();
                driver.quit();
            }
 
