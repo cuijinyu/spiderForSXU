@@ -4,6 +4,7 @@ var express=require('express');
 var path=require('path');
 var ejs=require('ejs');
 var index = require('./routes/index');
+var cookieParser=require('cookie-parser')
 //var routes=require("./routes");
 var app=express();
 //express服务器的配置
@@ -12,6 +13,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'views'));
+app.use(cookieParser());//使用cookie
 //app.use(app.router);
 app.use(express.static(path.join(__dirname,'public')));
 app.use('/',index);
